@@ -1,0 +1,15 @@
+# API directory .htaccess - Additional API-specific rules
+
+# Set JSON content type only for .php files
+<FilesMatch "\.php$">
+    Header set Content-Type "application/json; charset=UTF-8"
+</FilesMatch>
+
+# Prevent direct access to sensitive files
+<FilesMatch "^(bootstrap|composer\.(json|lock)|\.env)">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# Disable directory listing
+Options -Indexes

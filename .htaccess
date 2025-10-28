@@ -1,0 +1,40 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteBase /
+
+    # --- 1. Prevent loops ---
+    RewriteCond %{REQUEST_URI} ^/public/ [NC]
+    RewriteRule ^ - [L]
+
+    # --- 2. API routes ---
+    RewriteCond %{REQUEST_URI} ^/api(/.*)?$ [NC]
+    RewriteRule ^api(/.*)?$ api/index.php [QSA,L]
+
+    # --- 3. Frontend routes ---
+    # If not a real file or directory
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+
+    # Root request → public/index.html
+    RewriteRule ^$ public/index.html [L]
+
+    # Folder → public/folder/index.html
+    RewriteCond %{REQUEST_URI} (.+)/$ [NC]
+    RewriteRule ^(.+)/$ public/$1/index.html [L]
+
+    # Any other path → public/path
+    RewriteRule ^(.*)$ public/$1 [L]
+</IfModule>
+
+# --- 4. CORS headers ---
+<IfModule mod_headers.c>
+    Header set Access-Control-Allow-Origin "*"
+    Header set Access-Control-Allow-Methods "GET, POST, PUT, DELETE, OPTIONS"
+    Header set Access-Control-Allow-Headers "Content-Type, Authorization"
+</IfModule>
+
+# --- 5. Handle OPTIONS preflight ---
+<IfModule mod_rewrite.c>
+    RewriteCond %{REQUEST_METHOD} OPTIONS
+    RewriteRule ^(.*)$ - [R=200,L]
+</IfModule>
