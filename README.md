@@ -24,33 +24,33 @@ A RESTful API for managing book lending and borrowing between users. Built with 
 1. Clone the repository
 
 2. Install dependencies:
-   \`\`\`bash
+   ```bash
    cd api
    composer install
-   \`\`\`
+   ```
 
 3. Set up environment variables in `api/.env`:
-   \`\`\`
+   ```
    DB_HOST=localhost
    DB_USER=root
    DB_PASS=password
    DB_NAME=book_lending
    SECRET_KEY=your_secret_key_here
    APP_ENV=development
-   \`\`\`
+   ```
 
 4. Create the database and run migrations:
-   \`\`\`bash
+   ```bash
    mysql -u root -p < api/scripts/001_init_database.sql
    mysql -u root -p < api/scripts/002_seed_data.sql
    mysql -u root -p < api/scripts/003_migrations.sql
    mysql -u root -p < api/scripts/004_reviews_table.sql
-   \`\`\`
+   ```
 
 5. Start your PHP server from the root directory:
-   \`\`\`bash
+   ```bash
    php -S localhost:8000
-   \`\`\`
+   ```
 
 6. Access the frontend:
    - Open `http://localhost:8000/` in your browser (serves `public/index.html`)
@@ -58,7 +58,7 @@ A RESTful API for managing book lending and borrowing between users. Built with 
 
 ## Project Structure
 
-\`\`\`
+```
 /
 ├── .htaccess (Root routing configuration)
 ├── public/ (Frontend files)
@@ -89,7 +89,7 @@ A RESTful API for managing book lending and borrowing between users. Built with 
         ├── 002_seed_data.sql
         ├── 003_migrations.sql
         └── 004_reviews_table.sql
-\`\`\`
+```
 
 ## URL Structure
 
@@ -116,7 +116,7 @@ A simple HTML/JavaScript frontend is included in `public/index.html` that demons
 ### Frontend Structure Options
 
 **Option 1: In public/ (Current Setup)**
-\`\`\`
+```
 /
 ├── .htaccess
 ├── public/
@@ -127,10 +127,10 @@ A simple HTML/JavaScript frontend is included in `public/index.html` that demons
 └── api/
     ├── index.php
     └── src/
-\`\`\`
+```
 
 **Option 2: Separate Frontend Repository**
-\`\`\`
+```
 /backend (this repo)
   ├── public/
   └── api/
@@ -141,10 +141,10 @@ A simple HTML/JavaScript frontend is included in `public/index.html` that demons
   ├── src/
   ├── package.json
   └── ...
-\`\`\`
+```
 
 **Option 3: Next.js/React Frontend**
-\`\`\`
+```
 /backend (this repo)
   ├── public/
   └── api/
@@ -156,13 +156,13 @@ A simple HTML/JavaScript frontend is included in `public/index.html` that demons
   ├── components/
   ├── package.json
   └── ...
-\`\`\`
+```
 
 ## API Endpoints
 
 ### Authentication
-- `POST /api/register` - Register a new user
-- `POST /api/login` - Login user
+- `POST /api/users/register` - Register a new user
+- `POST /api/users/login` - Login user
 
 ### Books
 - `GET /api/books` - Get all books
@@ -206,9 +206,9 @@ When retrieving user reviews, you get:
 
 Most endpoints require JWT authentication. Include the token in the Authorization header:
 
-\`\`\`
+```
 Authorization: Bearer YOUR_TOKEN_HERE
-\`\`\`
+```
 
 ## Error Handling
 
