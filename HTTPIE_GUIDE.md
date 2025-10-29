@@ -4,23 +4,23 @@ This guide demonstrates how to interact with the Book Lending API using HTTPie, 
 
 ## Installation
 
-\`\`\`bash
+```bash
 pip install httpie
-\`\`\`
+```
 
 ## Base URL
 
-\`\`\`
+```
 http://localhost:8000/api
-\`\`\`
+```
 
 ## Authentication
 
 Most endpoints require a JWT token. After login, include the token in the Authorization header:
 
-\`\`\`bash
+```bash
 http GET http://localhost:8000/api/books Authorization:"Bearer YOUR_TOKEN_HERE"
-\`\`\`
+```
 
 ---
 
@@ -28,33 +28,33 @@ http GET http://localhost:8000/api/books Authorization:"Bearer YOUR_TOKEN_HERE"
 
 ### 1. Register a New User
 
-\`\`\`bash
+```bash
 http POST http://localhost:8000/api/register \
   email=john@example.com \
   username=john_doe \
   first_name=John \
   last_name=Doe \
   password=SecurePass123
-\`\`\`
+```
 
 **Response (201):**
-\`\`\`json
+```json
 {
   "message": "User registered successfully",
   "user_id": 1
 }
-\`\`\`
+```
 
 ### 2. Login
 
-\`\`\`bash
+```bash
 http POST http://localhost:8000/api/login \
   email=john@example.com \
   password=SecurePass123
-\`\`\`
+```
 
 **Response (200):**
-\`\`\`json
+```json
 {
   "message": "Login successful",
   "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
@@ -64,42 +64,42 @@ http POST http://localhost:8000/api/login \
     "username": "john_doe"
   }
 }
-\`\`\`
+```
 
 ### 3. Get Current User Profile
 
-\`\`\`bash
+```bash
 http GET http://localhost:8000/api/users/me \
   Authorization:"Bearer YOUR_TOKEN"
-\`\`\`
+```
 
 ### 4. Get User's Books
 
-\`\`\`bash
+```bash
 http GET http://localhost:8000/api/users/me/books \
   Authorization:"Bearer YOUR_TOKEN"
-\`\`\`
+```
 
 ### 5. Update User Profile
 
-\`\`\`bash
+```bash
 http PUT http://localhost:8000/api/users/me \
   Authorization:"Bearer YOUR_TOKEN" \
   username=new_username \
   email=newemail@example.com
-\`\`\`
+```
 
 ### 6. Get User by ID
 
-\`\`\`bash
+```bash
 http GET http://localhost:8000/api/users/1
-\`\`\`
+```
 
 ### 7. Get User's Books by ID
 
-\`\`\`bash
+```bash
 http GET http://localhost:8000/api/users/1/books
-\`\`\`
+```
 
 ---
 
@@ -107,19 +107,19 @@ http GET http://localhost:8000/api/users/1/books
 
 ### 1. Get All Books
 
-\`\`\`bash
+```bash
 http GET http://localhost:8000/api/books
-\`\`\`
+```
 
 ### 2. Get Single Book
 
-\`\`\`bash
+```bash
 http GET http://localhost:8000/api/books/1
-\`\`\`
+```
 
 ### 3. Create a New Book
 
-\`\`\`bash
+```bash
 http POST http://localhost:8000/api/books \
   Authorization:"Bearer YOUR_TOKEN" \
   title="The Great Gatsby" \
@@ -127,47 +127,47 @@ http POST http://localhost:8000/api/books \
   isbn="978-0743273565" \
   description="A classic American novel" \
   cover_image="https://example.com/cover.jpg"
-\`\`\`
+```
 
 **Response (201):**
-\`\`\`json
+```json
 {
   "message": "Book created successfully",
   "book_id": 5
 }
-\`\`\`
+```
 
 ### 4. Update a Book
 
-\`\`\`bash
+```bash
 http PUT http://localhost:8000/api/books/5 \
   Authorization:"Bearer YOUR_TOKEN" \
   title="The Great Gatsby (Updated)" \
   description="Updated description"
-\`\`\`
+```
 
 ### 5. Delete a Book
 
-\`\`\`bash
+```bash
 http DELETE http://localhost:8000/api/books/5 \
   Authorization:"Bearer YOUR_TOKEN"
-\`\`\`
+```
 
 ### 6. Upload Book Cover Image
 
-\`\`\`bash
+```bash
 http --form POST http://localhost:8000/api/books/5/upload-cover \
   Authorization:"Bearer YOUR_TOKEN" \
   cover@/path/to/image.jpg
-\`\`\`
+```
 
 **Response (200):**
-\`\`\`json
+```json
 {
   "message": "Cover image uploaded successfully",
   "cover_path": "public/covers/book_5_a1b2c3d4e5f6.jpg"
 }
-\`\`\`
+```
 
 ---
 
@@ -175,57 +175,57 @@ http --form POST http://localhost:8000/api/books/5/upload-cover \
 
 ### 1. Request a Book Loan
 
-\`\`\`bash
+```bash
 http POST http://localhost:8000/api/loans/request \
   Authorization:"Bearer YOUR_TOKEN" \
   book_id=3 \
   start_date="2025-01-20" \
   due_date="2025-02-20" \
   message="I would love to read this book!"
-\`\`\`
+```
 
 **Response (201):**
-\`\`\`json
+```json
 {
   "message": "Loan request created successfully",
   "loan_id": 12
 }
-\`\`\`
+```
 
 ### 2. Get Received Loan Requests (as Book Owner)
 
-\`\`\`bash
+```bash
 http GET http://localhost:8000/api/loans/received \
   Authorization:"Bearer YOUR_TOKEN"
-\`\`\`
+```
 
 ### 3. Get My Borrowed Books (as Borrower)
 
-\`\`\`bash
+```bash
 http GET http://localhost:8000/api/loans/my-borrowed \
   Authorization:"Bearer YOUR_TOKEN"
-\`\`\`
+```
 
 ### 4. Approve a Loan Request
 
-\`\`\`bash
+```bash
 http PUT http://localhost:8000/api/loans/12/approve \
   Authorization:"Bearer YOUR_TOKEN"
-\`\`\`
+```
 
 ### 5. Decline a Loan Request
 
-\`\`\`bash
+```bash
 http PUT http://localhost:8000/api/loans/12/decline \
   Authorization:"Bearer YOUR_TOKEN"
-\`\`\`
+```
 
 ### 6. Complete a Loan
 
-\`\`\`bash
+```bash
 http PUT http://localhost:8000/api/loans/12/complete \
   Authorization:"Bearer YOUR_TOKEN"
-\`\`\`
+```
 
 ---
 
@@ -235,21 +235,21 @@ http PUT http://localhost:8000/api/loans/12/complete \
 
 Submit a rating and optional comment for a user after a completed loan.
 
-\`\`\`bash
+```bash
 http POST http://localhost:8000/api/reviews \
   Authorization:"Bearer YOUR_TOKEN" \
   loan_id=12 \
   rating=5 \
   comment="Great book owner! Very responsive and the book was in excellent condition."
-\`\`\`
+```
 
 **Response (201):**
-\`\`\`json
+```json
 {
   "message": "Review submitted successfully",
   "review_id": 5
 }
-\`\`\`
+```
 
 **Requirements:**
 - Loan must be in "done" status (completed)
@@ -262,12 +262,12 @@ http POST http://localhost:8000/api/reviews \
 
 Retrieve all reviews for a user along with their average rating (public endpoint).
 
-\`\`\`bash
+```bash
 http GET http://localhost:8000/api/reviews/1
-\`\`\`
+```
 
 **Response (200):**
-\`\`\`json
+```json
 {
   "user_id": 1,
   "average_rating": 4.5,
@@ -301,126 +301,126 @@ http GET http://localhost:8000/api/reviews/1
     }
   ]
 }
-\`\`\`
+```
 
 ### 3. Review Submission Examples
 
 #### 5-Star Review with Comment
 
-\`\`\`bash
+```bash
 http POST http://localhost:8000/api/reviews \
   Authorization:"Bearer YOUR_TOKEN" \
   loan_id=15 \
   rating=5 \
   comment="Excellent borrower! Returned the book on time in perfect condition."
-\`\`\`
+```
 
 #### 3-Star Review with Comment
 
-\`\`\`bash
+```bash
 http POST http://localhost:8000/api/reviews \
   Authorization:"Bearer YOUR_TOKEN" \
   loan_id=16 \
   rating=3 \
   comment="Good experience overall, but the book had some minor wear."
-\`\`\`
+```
 
 #### Rating Without Comment
 
-\`\`\`bash
+```bash
 http POST http://localhost:8000/api/reviews \
   Authorization:"Bearer YOUR_TOKEN" \
   loan_id=17 \
   rating=4
-\`\`\`
+```
 
 ### 4. Error Handling Examples
 
 #### Loan Not Found
 
-\`\`\`bash
+```bash
 http POST http://localhost:8000/api/reviews \
   Authorization:"Bearer YOUR_TOKEN" \
   loan_id=999 \
   rating=5
-\`\`\`
+```
 
 **Response (404):**
-\`\`\`json
+```json
 {
   "error": "Loan not found"
 }
-\`\`\`
+```
 
 #### Loan Not Completed
 
-\`\`\`bash
+```bash
 http POST http://localhost:8000/api/reviews \
   Authorization:"Bearer YOUR_TOKEN" \
   loan_id=12 \
   rating=5
-\`\`\`
+```
 
 **Response (400):**
-\`\`\`json
+```json
 {
   "error": "Can only review completed loans (status: done)"
 }
-\`\`\`
+```
 
 #### Review Already Exists
 
-\`\`\`bash
+```bash
 http POST http://localhost:8000/api/reviews \
   Authorization:"Bearer YOUR_TOKEN" \
   loan_id=12 \
   rating=5
-\`\`\`
+```
 
 **Response (400):**
-\`\`\`json
+```json
 {
   "error": "A review already exists for this loan"
 }
-\`\`\`
+```
 
 #### Invalid Rating
 
-\`\`\`bash
+```bash
 http POST http://localhost:8000/api/reviews \
   Authorization:"Bearer YOUR_TOKEN" \
   loan_id=12 \
   rating=10
-\`\`\`
+```
 
 **Response (400):**
-\`\`\`json
+```json
 {
   "error": "Rating must be between 1 and 5"
 }
-\`\`\`
+```
 
 #### Unauthorized User
 
-\`\`\`bash
+```bash
 http POST http://localhost:8000/api/reviews \
   Authorization:"Bearer WRONG_TOKEN" \
   loan_id=12 \
   rating=5
-\`\`\`
+```
 
 **Response (403):**
-\`\`\`json
+```json
 {
   "error": "Unauthorized: You are not part of this loan"
 }
-\`\`\`
+```
 
 ### 5. Workflow Example: Complete Loan and Review
 
 Here's a typical workflow for completing a loan and submitting a review:
 
-\`\`\`bash
+```bash
 # 1. Login and save token
 TOKEN=$(http POST http://localhost:8000/api/login \
   email=john@example.com \
@@ -439,7 +439,7 @@ http POST http://localhost:8000/api/reviews \
 
 # 4. View the user's reviews and rating
 http GET http://localhost:8000/api/reviews/2
-\`\`\`
+```
 
 ---
 
@@ -447,61 +447,61 @@ http GET http://localhost:8000/api/reviews/2
 
 ### Invalid JSON
 
-\`\`\`bash
+```bash
 http POST http://localhost:8000/api/users/login \
   email=test@example.com
-\`\`\`
+```
 
 **Response (400):**
-\`\`\`json
+```json
 {
   "error": "Invalid JSON format",
   "details": "Syntax error"
 }
-\`\`\`
+```
 
 ### Missing Required Fields
 
-\`\`\`bash
+```bash
 http POST http://localhost:8000/api/books \
   Authorization:"Bearer YOUR_TOKEN" \
   author="F. Scott Fitzgerald"
-\`\`\`
+```
 
 **Response (400):**
-\`\`\`json
+```json
 {
   "error": "Validation failed",
   "details": "Title is required"
 }
-\`\`\`
+```
 
 ### Unauthorized Access
 
-\`\`\`bash
+```bash
 http DELETE http://localhost:8000/api/books/5 \
   Authorization:"Bearer WRONG_TOKEN"
-\`\`\`
+```
 
 **Response (403):**
-\`\`\`json
+```json
 {
   "error": "Unauthorized: You can only delete your own books"
 }
-\`\`\`
+```
 
 ### Resource Not Found
 
-\`\`\`bash
+```bash
 http GET http://localhost:8000/api/books/999
-\`\`\`
+```
 
 **Response (404):**
-\`\`\`json
+```json
 {
   "error": "Book not found"
 }
-\`\`\`
+```
 
 ---
 
@@ -509,40 +509,40 @@ http GET http://localhost:8000/api/books/999
 
 ### Save Token to Variable
 
-\`\`\`bash
+```bash
 TOKEN=$(http POST http://localhost:8000/api/login \
   email=john@example.com \
   password=SecurePass123 | jq -r '.token')
 
 echo $TOKEN
-\`\`\`
+```
 
 ### Use Token in Subsequent Requests
 
-\`\`\`bash
+```bash
 http GET http://localhost:8000/api/users/me \
   Authorization:"Bearer $TOKEN"
-\`\`\`
+```
 
 ### Pretty Print JSON Response
 
-\`\`\`bash
+```bash
 http GET http://localhost:8000/api/reviews/1 | jq '.'
-\`\`\`
+```
 
 ### Save Response to File
 
-\`\`\`bash
+```bash
 http GET http://localhost:8000/api/reviews/1 > user_reviews.json
-\`\`\`
+```
 
 ### Upload Multiple Files
 
-\`\`\`bash
+```bash
 http --form POST http://localhost:8000/api/books/5/upload-cover \
   Authorization:"Bearer YOUR_TOKEN" \
   cover@/path/to/image.jpg
-\`\`\`
+```
 
 ---
 

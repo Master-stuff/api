@@ -387,7 +387,7 @@
                 return;
             }
 
-            const result = await apiCall('/auth/register', 'POST', { email, password, full_name: fullName });
+            const result = await apiCall('/register', 'POST', { email, password, full_name: fullName });
             displayResponse('registerResponse', result.data, result.status === 201);
         }
 
@@ -400,7 +400,7 @@
                 return;
             }
 
-            const result = await apiCall('/users/login', 'POST', { email, password });
+            const result = await apiCall('/login', 'POST', { email, password });
             
             if (result.status === 200 && result.data.token) {
                 token = result.data.token;
@@ -413,7 +413,7 @@
         }
 
         async function getCurrentUser() {
-            const result = await apiCall('/users/me');
+            const result = await apiCall('/me');
             displayResponse('userResponse', result.data, result.status === 200);
         }
 
